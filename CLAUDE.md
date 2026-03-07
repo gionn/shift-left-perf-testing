@@ -1,6 +1,4 @@
-# Copilot Instructions for this Slidev Presentation
-
-## Project context
+# Project context
 
 - This repository contains a Slidev presentation.
 - The main deck file is `slides.md`.
@@ -14,7 +12,13 @@
 - `components/`: Vue components that can be embedded in slides.
 - `snippets/`: external code snippets that can be embedded with `<<< @/snippets/...`.
 
-## Editing guidelines for Slidev
+## Commands
+
+- Development: `npm run dev`
+- Build: `npm run build`
+- Export: `npm run export`
+
+## Editing guidelines
 
 - Preserve top-level YAML frontmatter in `slides.md` (theme, title, info, transition, duration, etc.).
 - Separate slides with `---` exactly.
@@ -36,17 +40,6 @@
 - Prefer plain, direct language suitable for technical presentations.
 - Do not rename core files (`slides.md`, `slides.template.md`) unless explicitly requested.
 - Avoid introducing unrelated dependencies or build changes.
-
-## Commands
-
-Use project scripts for Slidev operations:
-
-- Development: `npm run dev`
-- Build: `npm run build`
-- Export: `npm run export`
-
-## What Copilot should optimize for
-
 - Generate slide-ready Markdown that is valid Slidev syntax.
 - Propose layout and transition choices only when they improve clarity.
 - Reuse existing project patterns before introducing new ones.
