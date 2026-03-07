@@ -114,6 +114,32 @@ unexpected load. It answers questions like:
 
 ---
 
+# Cost of late defects
+
+The later a performance issue is found, the more expensive it is to fix:
+
+- **Dev**: a slow query caught in a local test costs minutes
+- **CI**: caught on a PR costs an hour of review and a fix commit
+- **Staging**: costs a sprint delay and cross-team coordination
+- **Production**: costs user trust, on-call time, and hotfix risk
+
+Shift left = move the discovery point as early as possible.
+
+---
+
+# The shift-left spectrum
+
+| Stage | Who runs it | Trigger | Feedback time |
+| --- | --- | --- | --- |
+| Local | Developer | Manual | Seconds |
+| Pull request | CI | On push | Minutes |
+| Merge / nightly | CI | Scheduled | Hours |
+| Staging | QA / ops | Pre-release | Days |
+
+The goal is to make the leftmost columns the primary signal.
+
+---
+
 # Solution overview
 
 We use a lightweight stack that is easy to automate:
@@ -228,11 +254,75 @@ export const options = {
 
 ---
 
+# k6 output formats
+
+k6 can stream metrics to multiple backends:
+
+```bash
+# InfluxDB (v1)
+k6 run --out influxdb=http://localhost:8086/k6 script.js
+
+# JSON file for post-processing
+k6 run --out json=results.json script.js
+
+# Grafana Cloud k6
+k6 run --out cloud script.js
+```
+
+We use InfluxDB v1 for self-hosted, always-on storage alongside Grafana.
+
+---
+
+# InfluxDB schema
+
+k6 writes one measurement per metric type. Key measurements:
+
+| Measurement | Tags | Fields |
+| --- | --- | --- |
+| `http_req_duration` | `name`, `status`, `method` | `value` |
+| `http_req_failed` | `name` | `value` |
+| `vus` | — | `value` |
+| `iterations` | `scenario` | `value` |
+
+Tag by `name` to get per-endpoint latency breakdowns in Grafana.
+
+---
+
+# Grafana dashboard
+
+Key panels we track per test run:
+
+- **Latency trends**: p50 / p95 / p99 over time per endpoint
+- **Error rate**: percentage of failed requests
+- **VU ramp**: active virtual users vs. request rate
+- **Resource usage**: CPU and memory of the system under test
+
+Dashboards are version-controlled alongside the k6 scripts.
+
+---
+
 # Test design tips
 
 - Start with the top 2-3 user journeys
 - Use realistic data and think time
 - Keep environments consistent for baselines
+
+---
+
+# CI integration
+
+Run k6 as part of your pipeline — fail the build on threshold breaches:
+
+```yaml
+- name: Run performance tests
+  run: |
+    k6 run \
+      --out influxdb=http://influxdb:8086/k6 \
+      --env BASE_URL=${{ env.APP_URL }} \
+      tests/load.js
+```
+
+A non-zero exit code from k6 fails the step when any threshold is exceeded.
 
 ---
 
@@ -244,9 +334,27 @@ export const options = {
 
 ---
 
+# What's next
+
+Ideas to extend the current setup:
+
+- Browser-level tests with k6 browser for UI journeys
+- Chaos engineering: inject failures during load tests
+- SLO alerting: Grafana alerts when baselines drift
+- Distributed k6 runs with k6 Operator on Kubernetes
+
+---
+
 # Wrap-up
 
 - Performance testing is part of the SDLC, not the release day
 - k6 provides fast feedback and automation
 - InfluxDB and Grafana make results visible and actionable
-  
+
+---
+
+# Questions?
+
+Giovanni Toraldo — Hyland
+
+Slides and scripts: github.com/gionn/shift-left-performance-testing

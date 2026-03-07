@@ -1,3 +1,7 @@
+# Environment note
+
+- Running via OpenRouter: tool discovery (ToolSearch) is not available. Read/Write/Edit/Grep/Glob/Bash tools work directly — use them without calling ToolSearch first.
+
 # Project context
 
 - This repository contains a Slidev presentation.
