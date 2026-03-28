@@ -18,18 +18,28 @@ Giovanni Toraldo
 Hyland
 
 ---
+layout: image-right
+image: https://avatars.githubusercontent.com/u/71768
+---
 
 # About me
 
-- 👋Hi, my name is Giovanni Toraldo and I work in Hyland.
+- DevOps Engineer at Hyland
+- Sometimes I get stuck in the past
+- More about me on [gionn.net](https://gionn.net)
 
 ---
 
 # Table of contents
 
-<Toc minDepth="1" maxDepth="1" />
+1. Performance testing basics
+2. Why shift left?
+3. Our solution: k6, InfluxDB, Grafana
 
-
+---
+layout: image-right
+image: https://www.svgrepo.com/show/353382/alfresco.svg
+backgroundSize: contain
 ---
 
 # Alfresco
