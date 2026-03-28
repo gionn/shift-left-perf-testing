@@ -10,6 +10,7 @@ drawings:
 transition: slide-left
 comark: true
 duration: 40min
+canvasWidth: 700
 ---
 # Shift Left with Performance Testing
 
@@ -24,17 +25,9 @@ image: https://avatars.githubusercontent.com/u/71768
 
 # About me
 
-- DevOps Engineer at Hyland
-- Sometimes I get stuck in the past
-- More about me on [gionn.net](https://gionn.net)
-
----
-
-# Table of contents
-
-1. Performance testing basics
-2. Why shift left?
-3. Our solution: k6, InfluxDB, Grafana
+* DevOps Engineer at Hyland
+* Sometimes I get stuck in the past
+* More about me on [gionn.net](https://gionn.net)
 
 ---
 layout: image-right
@@ -44,14 +37,44 @@ backgroundSize: contain
 
 # Alfresco
 
-Alfresco is an open-source content management system (CMS) that provides a
-platform for managing and sharing digital content.
-
-It offers features such as document management, collaboration, workflow
-automation, and records management.
+Open Source document, process and governance management suite.
 
 Alfresco is designed to help organizations efficiently manage their content and
 improve productivity.
+
+---
+
+# Ops readiness team
+
+My team ensures that Alfresco can be deployed and operated reliable in multiple
+environments. We focus on:
+
+* Helm charts and GitOps best practices
+* Docker images and Compose for local development
+* CI/CD pipelines and automation
+* Performance testing and monitoring 🆕
+
+---
+
+# Open source projects we maintain
+
+* Helm Charts
+  * [Umbrella chart](https://github.com/Alfresco/acs-deployment) for all
+    products
+  * [Component charts](https://github.com/Alfresco/alfresco-helm-charts) for each
+    product
+* Docker images:
+  [alfresco-dockerfiles-bakery](https://github.com/Alfresco/alfresco-dockerfiles-bakery)
+* Ansible playbooks for classic deployments:
+  [alfresco-ansible](https://github.com/Alfresco/alfresco-ansible-deployment)
+
+---
+
+# Table of contents
+
+1. Performance testing basics
+2. Why shift left?
+3. Our solution: k6, InfluxDB, Grafana
 
 ---
 
@@ -66,11 +89,14 @@ However, when performance issues start to make the user slow, it can quickly
 lead to frustration and dissatisfaction.
 
 ---
+layout: two-cols-header
+---
 
 # What causes performance issues?
 
 Performance issues can be caused by a variety of factors, including:
 
+::left::
 - Database performance
   - Missing indexes
   - Connection pool exhaustion
@@ -78,6 +104,7 @@ Performance issues can be caused by a variety of factors, including:
 - High memory usage
   - Unreleased resources
   - Inefficient data structures
+::right::
 - CPU bottlenecks
   - Inefficient algorithms
   - Lock contention
