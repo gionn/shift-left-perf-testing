@@ -97,20 +97,20 @@ layout: two-cols-header
 Performance issues can be caused by a variety of factors, including:
 
 ::left::
-- Database performance
-  - Missing indexes
-  - Connection pool exhaustion
-  - I/O bottlenecks
-- High memory usage
-  - Unreleased resources
-  - Inefficient data structures
+* Database performance
+  * Missing indexes
+  * Connection pool exhaustion
+  * I/O bottlenecks
+* High memory usage
+  * Unreleased resources
+  * Inefficient data structures
 ::right::
-- CPU bottlenecks
-  - Inefficient algorithms
-  - Lock contention
-- All of the above
-  - N+1 problems
-  - Network latency
+* CPU bottlenecks
+  * Inefficient algorithms
+  * Lock contention
+* All of the above
+  * N+1 problems
+  * Network latency
 
 ---
 
@@ -119,35 +119,35 @@ Performance issues can be caused by a variety of factors, including:
 Performance testing validates how a system behaves under expected and
 unexpected load. It answers questions like:
 
-- How fast are key user journeys?
-- How many users can we serve at once?
-- What breaks first and why?
+* How fast are key user journeys?
+* How many users can we serve at once?
+* What breaks first and why?
 
 ---
 
 # What we measure
 
-- Latency (p50, p95, p99)
-- Throughput (requests per second)
-- Error rates
-- Resource usage (CPU, memory, I/O)
+* Latency (p50, p95, p99)
+* Throughput (requests per second)
+* Error rates
+* Resource usage (CPU, memory, I/O)
 
 ---
 
 # Types of performance tests
 
-- Load: expected traffic for normal conditions
-- Stress: push beyond limits to find the breaking point
-- Spike: sudden bursts of traffic
-- Soak: long duration to find leaks and degradation
+* Load: expected traffic for normal conditions
+* Stress: push beyond limits to find the breaking point
+* Spike: sudden bursts of traffic
+* Soak: long duration to find leaks and degradation
 
 ---
 
 # Why shift left?
 
-- Find regressions when changes are small and cheap to fix
-- Keep performance as a product feature, not a release gate
-- Give developers fast, actionable feedback
+* Find regressions when changes are small and cheap to fix
+* Keep performance as a product feature, not a release gate
+* Give developers fast, actionable feedback
 
 ---
 
@@ -155,10 +155,10 @@ unexpected load. It answers questions like:
 
 The later a performance issue is found, the more expensive it is to fix:
 
-- **Dev**: a slow query caught in a local test costs minutes
-- **CI**: caught on a PR costs an hour of review and a fix commit
-- **Staging**: costs a sprint delay and cross-team coordination
-- **Production**: costs user trust, on-call time, and hotfix risk
+* **Dev**: a slow query caught in a local test costs minutes
+* **CI**: caught on a PR costs an hour of review and a fix commit
+* **Staging**: costs a sprint delay and cross-team coordination
+* **Production**: costs user trust, on-call time, and hotfix risk
 
 Shift left = move the discovery point as early as possible.
 
@@ -181,19 +181,19 @@ The goal is to make the leftmost columns the primary signal.
 
 We use a lightweight stack that is easy to automate:
 
-- k6: define and run load tests
-- InfluxDB: store time-series metrics
-- Grafana: visualize and share results
+* k6: define and run load tests
+* InfluxDB: store time-series metrics
+* Grafana: visualize and share results
 
 ---
 
 # Provisioning and delivery
 
-- Terraform pipeline provisions Alfresco on EKS
-- Cluster Autoscaler ready to scale nodes during load tests
-- Helm charts deploy the stack
-- FluxCD keeps the latest tested tags synced
-- k6 runs as a pod inside the cluster
+* Terraform pipeline provisions Alfresco on EKS
+* Cluster Autoscaler ready to scale nodes during load tests
+* Helm charts deploy the stack
+* FluxCD keeps the latest tested tags synced
+* k6 runs as a pod inside the cluster
 
 ---
 
@@ -207,26 +207,26 @@ We use a lightweight stack that is easy to automate:
 
 # Where it runs
 
-- Local: quick checks during development
-- CI: validate changes on every merge
-- Scheduled: nightly or weekly baselines
+* Local: quick checks during development
+* CI: validate changes on every merge
+* Scheduled: nightly or weekly baselines
 
 ---
 
 # Why focus on k6
 
-- Scripted tests live with the code
-- Fast, headless execution
-- Built-in metrics, thresholds, and checks
-- Easy to integrate with CI pipelines
+* Scripted tests live with the code
+* Fast, headless execution
+* Built-in metrics, thresholds, and checks
+* Easy to integrate with CI pipelines
 
 ---
 
 # k6 mental model
 
-- Virtual users (VUs) run your script in parallel
-- Scenarios control arrival rate and ramping
-- Iterations define how much work each VU does
+* Virtual users (VUs) run your script in parallel
+* Scenarios control arrival rate and ramping
+* Iterations define how much work each VU does
 
 ---
 
@@ -286,8 +286,8 @@ export const options = {
 
 # Tags and trends
 
-- Tag key requests with `tags` for per-endpoint analysis
-- Use consistent test names to compare runs over time
+* Tag key requests with `tags` for per-endpoint analysis
+* Use consistent test names to compare runs over time
 
 ---
 
@@ -329,10 +329,10 @@ Tag by `name` to get per-endpoint latency breakdowns in Grafana.
 
 Key panels we track per test run:
 
-- **Latency trends**: p50 / p95 / p99 over time per endpoint
-- **Error rate**: percentage of failed requests
-- **VU ramp**: active virtual users vs. request rate
-- **Resource usage**: CPU and memory of the system under test
+* **Latency trends**: p50 / p95 / p99 over time per endpoint
+* **Error rate**: percentage of failed requests
+* **VU ramp**: active virtual users vs. request rate
+* **Resource usage**: CPU and memory of the system under test
 
 Dashboards are version-controlled alongside the k6 scripts.
 
@@ -340,9 +340,9 @@ Dashboards are version-controlled alongside the k6 scripts.
 
 # Test design tips
 
-- Start with the top 2-3 user journeys
-- Use realistic data and think time
-- Keep environments consistent for baselines
+* Start with the top 2-3 user journeys
+* Use realistic data and think time
+* Keep environments consistent for baselines
 
 ---
 
@@ -365,9 +365,9 @@ A non-zero exit code from k6 fails the step when any threshold is exceeded.
 
 # Common pitfalls
 
-- Unrealistic traffic patterns
-- Ignoring warm-up and cache effects
-- Mixing load and stress goals in one test
+* Unrealistic traffic patterns
+* Ignoring warm-up and cache effects
+* Mixing load and stress goals in one test
 
 ---
 
@@ -375,18 +375,18 @@ A non-zero exit code from k6 fails the step when any threshold is exceeded.
 
 Ideas to extend the current setup:
 
-- Browser-level tests with k6 browser for UI journeys
-- Chaos engineering: inject failures during load tests
-- SLO alerting: Grafana alerts when baselines drift
-- Distributed k6 runs with k6 Operator on Kubernetes
+* Browser-level tests with k6 browser for UI journeys
+* Chaos engineering: inject failures during load tests
+* SLO alerting: Grafana alerts when baselines drift
+* Distributed k6 runs with k6 Operator on Kubernetes
 
 ---
 
 # Wrap-up
 
-- Performance testing is part of the SDLC, not the release day
-- k6 provides fast feedback and automation
-- InfluxDB and Grafana make results visible and actionable
+* Performance testing is part of the SDLC, not the release day
+* k6 provides fast feedback and automation
+* InfluxDB and Grafana make results visible and actionable
 
 ---
 layout: image-right
