@@ -389,9 +389,14 @@ Ideas to extend the current setup:
 - InfluxDB and Grafana make results visible and actionable
 
 ---
+layout: image-right
+image: ./images/shift-left-with-performance-testing_toraldo_1129276_feedback-code.png
+---
 
 # Questions?
 
-Giovanni Toraldo — Hyland
+Reach me on LinkedIn: [Giovanni Toraldo](https://www.linkedin.com/in/giovannitoraldo/)
 
-Slides and scripts: github.com/gionn/shift-left-performance-testing
+or on my website [gionn.net](https://gionn.net)
+
+Slides sources on GitHub: [github.com/gionn/shift-left-performance-testing](https://github.com/gionn/shift-left-performance-testing)
