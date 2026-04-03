@@ -147,7 +147,7 @@ unexpected load. It answers questions like:
 
 * Find regressions when changes are small and cheap to fix
 * Keep performance as a product feature, not a release gate
-* Give developers fast, actionable feedback
+* Give developers fast, actionable feedback, not customer complaints
 
 ---
 
@@ -161,19 +161,6 @@ The later a performance issue is found, the more expensive it is to fix:
 * **Production**: costs user trust, on-call time, and hotfix risk
 
 Shift left = move the discovery point as early as possible.
-
----
-
-# The shift-left spectrum
-
-| Stage | Who runs it | Trigger | Feedback time |
-| --- | --- | --- | --- |
-| Local | Developer | Manual | Seconds |
-| Pull request | CI | On push | Minutes |
-| Merge / nightly | CI | Scheduled | Hours |
-| Staging | QA / ops | Pre-release | Days |
-
-The goal is to make the leftmost columns the primary signal.
 
 ---
 
@@ -200,7 +187,7 @@ We use a lightweight stack that is easy to automate:
 # Data flow
 
 1. k6 executes user journeys against the system under test
-2. Metrics are pushed to InfluxDB
+2. Metrics are pushed to InfluxDB (both k6 and system metrics)
 3. Grafana dashboards show trends and regressions
 
 ---
