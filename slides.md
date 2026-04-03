@@ -149,18 +149,31 @@ unexpected load. It answers questions like:
 * Keep performance as a product feature, not a release gate
 * Give developers fast, actionable feedback, not customer complaints
 
+```mermaid
+graph LR
+  Dev[Development] --> CI[CI Pipeline] --> Staging[Staging Environment] --> Prod[Production]
+```
+
+
 ---
 
 # Cost of late defects
 
 The later a performance issue is found, the more expensive it is to fix:
 
-* **Dev**: a slow query caught in a local test costs minutes
-* **CI**: caught on a PR costs an hour of review and a fix commit
-* **Staging**: costs a sprint delay and cross-team coordination
-* **Production**: costs user trust, on-call time, and hotfix risk
+* **Dev**: a bug caught in a local test costs minutes
+* **CI**: a regression caught costs an hour to review and fix
+* **Staging**: broken feat costs a sprint delay and cross-team
+  coordination
+* **Production**: incident costs user trust, on-call time, and hotfix risks
 
 Shift left = move the discovery point as early as possible.
+
+```mermaid
+graph LR
+  Dev[Development] --> CI[CI Pipeline] --> Staging[Staging Environment] --> Prod[Production]
+  Prod --$--> Staging --$--> CI --$--> Dev  
+```
 
 ---
 
@@ -172,23 +185,47 @@ We use a lightweight stack that is easy to automate:
 * InfluxDB: store time-series metrics
 * Grafana: visualize and share results
 
+```mermaid
+flowchart LR
+  A[Developer / CI Pipeline] --launch--> B[k6 Load Tests]
+  B --> C[Alfresco API]
+  B --push metrics--> D[(InfluxDB)]
+  C --push metrics--> D
+  E[Grafana Dashboards] --query metrics--> D
+  A --view--> E
+```
+
 ---
 
 # Provisioning and delivery
 
-* Terraform pipeline provisions Alfresco on EKS
+* Terraform pipeline provisions a Kubernetes cluster on demand
+* FluxCD deploys the Alfresco stack via Helm Charts and keeps it up to date
 * Cluster Autoscaler ready to scale nodes during load tests
-* Helm charts deploy the stack
-* FluxCD keeps the latest tested tags synced
 * k6 runs as a pod inside the cluster
+
+```mermaid
+flowchart LR
+  A[Terraform] --provisions--> B[Kubernetes Cluster]
+  B --runs--> C[FluxCD]
+  C --deploy--> D[Alfresco Stack]
+  D --execute--> E[k6 Load Tests]
+```
 
 ---
 
 # Data flow
 
 1. k6 executes user journeys against the system under test
-2. Metrics are pushed to InfluxDB (both k6 and system metrics)
-3. Grafana dashboards show trends and regressions
+2. Both k6 and system metrics are pushed to InfluxDB
+3. Grafana dashboards show trends and regressions for each test run
+
+```mermaid
+flowchart TD
+  A[k6 Load Tests] --push metrics--> B[(InfluxDB)]
+  C[Alfresco API] --push metrics--> B
+  D[Grafana Dashboards] --query metrics--> B
+```
 
 ---
 
@@ -196,16 +233,17 @@ We use a lightweight stack that is easy to automate:
 
 * Local: quick checks during development
 * CI: validate changes on every merge
-* Scheduled: nightly or weekly baselines
+* Scheduled: nightly baselines
 
 ---
 
-# Why focus on k6
+# K6 strengths
 
-* Scripted tests live with the code
+* Scripting in JavaScript/TypeScript with a familiar API
 * Fast, headless execution
 * Built-in metrics, thresholds, and checks
 * Easy to integrate with CI pipelines
+* Integration with Grafana Cloud (not used in our case but worth mentioning)
 
 ---
 
@@ -217,7 +255,7 @@ We use a lightweight stack that is easy to automate:
 
 ---
 
-# k6 test structure
+# k6 test script example
 
 ```js
 import http from "k6/http"
@@ -234,6 +272,7 @@ export default function () {
     "status is 200": (r) => r.status === 200,
   })
   sleep(1)
+  // more complex user journey with multiple requests and checks...
 }
 ```
 
@@ -246,11 +285,13 @@ export const options = {
   scenarios: {
     steady: {
       executor: "ramping-vus",
+      startVUs: 0,
       stages: [
         { duration: "30s", target: 10 },
-        { duration: "2m", target: 10 },
-        { duration: "30s", target: 0 },
+        { duration: "2m", target: 20 },
+        { duration: "30s", target: 40 },
       ],
+      gracefulRampDown: "30s",
     },
   },
 }
@@ -263,8 +304,8 @@ export const options = {
 ```js
 export const options = {
   thresholds: {
-    http_req_failed: ["rate<0.01"],
-    http_req_duration: ["p(95)<500"],
+    http_req_failed: ["rate<0.01"], // less than 1% failed requests
+    http_req_duration: ["p(95)<200"], // 95% of requests under 200ms
   },
 }
 ```
@@ -278,22 +319,17 @@ export const options = {
 
 ---
 
-# k6 output formats
-
-k6 can stream metrics to multiple backends:
+# k6 output to InfluxDB v2
 
 ```bash
-# InfluxDB (v1)
-k6 run --out influxdb=http://localhost:8086/k6 script.js
-
-# JSON file for post-processing
-k6 run --out json=results.json script.js
-
-# Grafana Cloud k6
-k6 run --out cloud script.js
+K6_INFLUXDB_ORGANIZATION=<insert-here-org-name>
+K6_INFLUXDB_BUCKET=<insert-here-bucket-name>
+K6_INFLUXDB_TOKEN=<insert-here-valid-token>
+k6 run --out xk6-influxdb=http://localhost:8086 script.js
 ```
 
-We use InfluxDB v1 for self-hosted, always-on storage alongside Grafana.
+Additional extension is required for v2, see
+[xk6-output-influxdb](https://github.com/grafana/xk6-output-influxdb).
 
 ---
 
