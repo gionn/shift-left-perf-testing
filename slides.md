@@ -377,7 +377,7 @@ Run k6 as part of your pipeline — fail the build on threshold breaches:
 - name: Run performance tests
   run: |
     k6 run \
-      --out influxdb=http://influxdb:8086/k6 \
+      --out xk6-influxdb=http://influxdb.example.org:8086 \
       --env BASE_URL=${{ env.APP_URL }} \
       tests/load.js
 ```
@@ -413,6 +413,16 @@ Ideas to extend the current setup:
 
 ---
 layout: image-right
+image: https://sli.dev/logo-title.png
+---
+
+# Bonus: slidev
+
+This presentation was built with [slidev](https://sli.dev), a markdown-based
+presentation tool (which works great with AI agents)
+
+---
+layout: image-right
 image: ./images/shift-left-with-performance-testing_toraldo_1129276_feedback-code.png
 ---
 
@@ -422,4 +432,4 @@ Reach me on LinkedIn: [Giovanni Toraldo](https://www.linkedin.com/in/giovannitor
 
 or on my website [gionn.net](https://gionn.net)
 
-Slides sources on GitHub: [github.com/gionn/shift-left-performance-testing](https://github.com/gionn/shift-left-performance-testing)
+Slides sources on GitHub: [github.com/gionn/shift-left-perf-testing](https://github.com/gionn/shift-left-perf-testing)
