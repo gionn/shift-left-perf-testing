@@ -199,10 +199,11 @@ flowchart LR
 
 # Provisioning and delivery
 
-* Terraform pipeline provisions a Kubernetes cluster on demand
-* FluxCD deploys the Alfresco stack via Helm Charts and keeps it up to date
-* Cluster Autoscaler ready to scale nodes during load tests
-* k6 runs as a pod inside the cluster
+* Nightly automated process:
+  * Terraform pipeline provisions a Kubernetes cluster on demand
+  * FluxCD deploys the Alfresco stack via Helm Charts and keeps it up to date
+  * Cluster Autoscaler ready to scale nodes during load tests
+  * k6 runs as a pod inside the cluster
 
 ```mermaid
 flowchart LR
