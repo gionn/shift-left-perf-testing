@@ -379,18 +379,40 @@ Additional extension is required for v2, see
 
 ---
 
-# InfluxDB schema
+# k6 output backends
 
-k6 writes one measurement per metric type. Key measurements:
+k6 supports multiple output backends beyond InfluxDB:
 
-| Measurement | Tags | Fields |
-| --- | --- | --- |
-| `http_req_duration` | `name`, `status`, `method` | `value` |
-| `http_req_failed` | `name` | `value` |
-| `vus` | — | `value` |
-| `iterations` | `scenario` | `value` |
+* **Grafana Cloud**: managed service, no infrastructure needed
+* **OpenTelemetry**: send metrics to any OTLP-compatible backend
+* **CSV / JSON**: simple file-based export for post-processing
+* Many more via community extensions
 
-Tag by `name` to get per-endpoint latency breakdowns in Grafana.
+Choose based on your existing observability stack. InfluxDB + Grafana gives you
+the most control and flexibility for on-premise setups.
+
+---
+
+# k6 end of test results
+
+Even without an external backend, k6 provides a summary of key metrics at the
+end of each test run:
+
+```sh
+ █ THRESHOLDS
+
+    http_req_duration
+    ✓ 'p(95)<1500' p(95)=148.21ms
+    ✓ 'p(90)<2000' p(90)=146.88ms
+
+    http_req_failed
+    ✓ 'rate<0.01' rate=0.00%
+
+    HTTP
+    http_req_duration..................: avg=140.36ms   min=119.08ms med=140.96ms max=154.63ms p(90)=146.88ms p(95)=148.21ms
+    http_req_failed....................: 0.00%  0 out of 45
+    http_reqs..........................: 45     6.56109/s
+```
 
 ---
 
@@ -404,6 +426,10 @@ Key panels we track per test run:
 * **Resource usage**: CPU and memory of the system under test
 
 Dashboards are version-controlled alongside the k6 scripts.
+
+# Grafana dashboard example
+
+TODO - add screenshots of our actual dashboards with trends and thresholds
 
 ---
 
