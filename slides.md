@@ -292,6 +292,38 @@ export default function () {
 
 ---
 
+# k6 browser example
+
+Use browser mode when you need to validate a real UI journey, not just API latency.
+
+* Covers frontend behavior, redirects, and rendered states
+* Useful for login flows, search, and other critical user journeys
+* Complements API-level load tests when backend timings alone are not enough
+
+---
+
+# k6 browser example code
+
+```js
+await page.goto(`${BASE_URL}/share`)
+
+// Wait for the login page to load
+await page.waitForSelector('form#kc-form-login', { timeout: 5000 })
+
+// Enter login credentials
+await page.locator('input[name="username"]').type('admin')
+await page.locator('input[name="password"]').type('secret')
+await page.locator('input[type="submit"]').click()
+
+// Wait for the share page to load the Quicksearch box
+await page.waitForURL(`${BASE_URL}/share/dashboard`, { timeout: 30000 })
+```
+
+This code is actually part of our helm chart integration tests, so k6 can become
+quite versatile in your testing strategy (not only performance).
+
+---
+
 # Scenarios and ramping
 
 ```js
