@@ -10,7 +10,7 @@ drawings:
 transition: slide-left
 comark: true
 duration: 40min
-canvasWidth: 700
+canvasWidth: 720
 ---
 # Shift Left with Performance Testing
 
@@ -183,12 +183,13 @@ We use a lightweight stack that is easy to automate:
 
 * k6: define and run load tests
 * InfluxDB: store time-series metrics
-* Grafana: visualize and share results
+* Telegraf: collect application/system metrics from the cluster
+* Grafana: visualize correlated metrics
 
 ```mermaid
 flowchart LR
   A[Developer / CI Pipeline] --launch--> B[k6 Load Tests]
-  B --> C[Alfresco API]
+  B --> C[Alfresco/Telegraf]
   B --push metrics--> D[(InfluxDB)]
   C --push metrics--> D
   E[Grafana Dashboards] --query metrics--> D
@@ -201,13 +202,13 @@ flowchart LR
 
 * Nightly automated process:
   * Terraform pipeline provisions a Kubernetes cluster on demand
-  * FluxCD deploys the Alfresco stack via Helm Charts and keeps it up to date
+  * FluxCD deploys Alfresco via Helm and keeps it up to date
   * Cluster Autoscaler ready to scale nodes during load tests
   * k6 runs as a pod inside the cluster
 
 ```mermaid
 flowchart LR
-  A[Terraform] --provisions--> B[Kubernetes Cluster]
+  A[Terraform Schedule] --provisions--> B[Kubernetes Cluster]
   B --runs--> C[FluxCD]
   C --deploy--> D[Alfresco Stack]
   D --execute--> E[k6 Load Tests]
@@ -280,7 +281,7 @@ export const options = {
 }
 
 export default function () {
-  const res = http.get("https://example.com")
+  const res = http.get("https://example.com/api/endpoint")
   check(res, {
     "status is 200": (r) => r.status === 200,
   })
