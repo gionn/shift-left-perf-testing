@@ -248,6 +248,18 @@ flowchart TD
 
 ---
 
+# k6 cloud offering
+
+Useful for evaluations and simpler use cases when you want less infrastructure to
+manage.
+
+* Run tests from the cloud without provisioning your own executors
+* Grafana dashboards are available out of the box
+* 14 days of retention is enough for quick comparisons and short evaluations
+* Good fit when you want to validate an idea fast before building a full stack
+
+---
+
 # k6 mental model
 
 * Virtual users (VUs) run your script in parallel
