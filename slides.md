@@ -154,7 +154,6 @@ graph LR
   Dev[Development] --> CI[CI Pipeline] --> Staging[Staging Environment] --> Prod[Production]
 ```
 
-
 ---
 
 # Cost of late defects
@@ -358,10 +357,31 @@ export const options = {
 
 ---
 
-# Tags and trends
+# User-defined tags
 
-* Tag key requests with `tags` for per-endpoint analysis
-* Use consistent test names to compare runs over time
+* Tag can be added at multiple levels:
+  * global options.tags for all metrics
+  * per-request tags for specific metrics
+* Useful for filtering and grouping in Grafana dashboards
+
+---
+
+# User-defined tags example
+
+```js
+export const options = {
+  tags: {
+    environment: "staging",
+    alfresco_version: "26.1.0-A.1",
+  },
+}
+```
+
+```js
+http.get("https://example.com/api/search", {
+  tags: { app_feature: "indexing" },
+})
+```
 
 ---
 
@@ -426,6 +446,8 @@ Key panels we track per test run:
 * **Resource usage**: CPU and memory of the system under test
 
 Dashboards are version-controlled alongside the k6 scripts.
+
+---
 
 # Grafana dashboard example
 
