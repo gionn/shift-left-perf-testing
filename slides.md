@@ -385,34 +385,6 @@ http.get("https://example.com/api/search", {
 
 ---
 
-# k6 output to InfluxDB v2
-
-```bash
-K6_INFLUXDB_ORGANIZATION=<insert-here-org-name>
-K6_INFLUXDB_BUCKET=<insert-here-bucket-name>
-K6_INFLUXDB_TOKEN=<insert-here-valid-token>
-k6 run --out xk6-influxdb=http://localhost:8086 script.js
-```
-
-Additional extension is required for v2, see
-[xk6-output-influxdb](https://github.com/grafana/xk6-output-influxdb).
-
----
-
-# k6 output backends
-
-k6 supports multiple output backends beyond InfluxDB:
-
-* **Grafana Cloud**: managed service, no infrastructure needed
-* **OpenTelemetry**: send metrics to any OTLP-compatible backend
-* **CSV / JSON**: simple file-based export for post-processing
-* Many more via community extensions
-
-Choose based on your existing observability stack. InfluxDB + Grafana gives you
-the most control and flexibility for on-premise setups.
-
----
-
 # k6 end of test results
 
 Even without an external backend, k6 provides a summary of key metrics at the
@@ -433,6 +405,34 @@ end of each test run:
     http_req_failed....................: 0.00%  0 out of 45
     http_reqs..........................: 45     6.56109/s
 ```
+
+---
+
+# k6 output backends
+
+k6 supports multiple output backends beyond InfluxDB:
+
+* **Grafana Cloud**: managed service, no infrastructure needed
+* **OpenTelemetry**: send metrics to any OTLP-compatible backend
+* **CSV / JSON**: simple file-based export for post-processing
+* Many more via community extensions
+
+Choose based on your existing observability stack. InfluxDB + Grafana gives you
+the most control and flexibility for on-premise setups.
+
+---
+
+# k6 output to InfluxDB v2
+
+```bash
+K6_INFLUXDB_ORGANIZATION=<insert-here-org-name>
+K6_INFLUXDB_BUCKET=<insert-here-bucket-name>
+K6_INFLUXDB_TOKEN=<insert-here-valid-token>
+k6 run --out xk6-influxdb=http://localhost:8086 script.js
+```
+
+Additional extension is required for v2, see
+[xk6-output-influxdb](https://github.com/grafana/xk6-output-influxdb).
 
 ---
 
