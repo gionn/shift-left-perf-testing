@@ -385,6 +385,22 @@ http.get("https://example.com/api/search", {
 
 ---
 
+# Test design tips
+
+* Start with the top 2-3 user journeys
+* Use realistic data and think time
+* Keep environments consistent for baselines
+
+---
+
+# Common pitfalls
+
+* Unrealistic traffic patterns
+* Ignoring warm-up and cache effects
+* Mixing load and stress goals in one test
+
+---
+
 # k6 end of test results
 
 Even without an external backend, k6 provides a summary of key metrics at the
@@ -436,33 +452,6 @@ Additional extension is required for v2, see
 
 ---
 
-# Grafana dashboard
-
-Key panels we track per test run:
-
-* **Latency trends**: p50 / p95 / p99 over time per endpoint
-* **Error rate**: percentage of failed requests
-* **VU ramp**: active virtual users vs. request rate
-* **Resource usage**: CPU and memory of the system under test
-
-Dashboards are version-controlled alongside the k6 scripts.
-
----
-
-# Grafana dashboard example
-
-TODO - add screenshots of our actual dashboards with trends and thresholds
-
----
-
-# Test design tips
-
-* Start with the top 2-3 user journeys
-* Use realistic data and think time
-* Keep environments consistent for baselines
-
----
-
 # CI integration
 
 Run k6 as part of your pipeline — fail the build on threshold breaches:
@@ -476,15 +465,42 @@ Run k6 as part of your pipeline — fail the build on threshold breaches:
       tests/load.js
 ```
 
-A non-zero exit code from k6 fails the step when any threshold is exceeded.
+---
+
+# Grafana dashboard
+
+Key panels we track per test run:
+
+* **Latency trends**: p50 / p95 / p99 over time per endpoint
+* **Error rate**: percentage of failed requests
+* **VU ramp**: active virtual users vs. request rate
+* **Resource usage**: CPU and memory of the system under test
+
+Dashboards are version-controlled alongside the k6 scripts.
+
+---
+layout: section
+---
+
+# Grafana dashboard examples
 
 ---
 
-# Common pitfalls
+![database metrics](/images/grafana-database.png)
 
-* Unrealistic traffic patterns
-* Ignoring warm-up and cache effects
-* Mixing load and stress goals in one test
+---
+
+![REST API metrics 1](/images/grafana-rest-api-1.png)
+
+---
+
+![REST API metrics 2](/images/grafana-rest-api-2.png)
+
+---
+
+![REST API metrics 3](/images/grafana-rest-api-3.png)
+
+
 
 ---
 
