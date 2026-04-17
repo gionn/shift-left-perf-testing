@@ -58,15 +58,14 @@ environments. We focus on:
 
 # Open source projects we maintain
 
-* Helm Charts
-  * [Umbrella chart](https://github.com/Alfresco/acs-deployment) for all
-    products
-  * [Component charts](https://github.com/Alfresco/alfresco-helm-charts) for each
-    product
-* Docker images:
-  [alfresco-dockerfiles-bakery](https://github.com/Alfresco/alfresco-dockerfiles-bakery)
-* Ansible playbooks for classic deployments:
-  [alfresco-ansible](https://github.com/Alfresco/alfresco-ansible-deployment)
+* Containerized deployments:
+  * [acs-deployment](https://github.com/Alfresco/acs-deployment) umbrella Helm
+    chart for the whole stack and compose files for local development
+  * [alfresco-helm-charts](https://github.com/Alfresco/alfresco-helm-charts):
+    component-level charts for more flexibility
+  * [alfresco-dockerfiles-bakery](https://github.com/Alfresco/alfresco-dockerfiles-bakery)
+* Classic deployments:
+  * [alfresco-ansible](https://github.com/Alfresco/alfresco-ansible-deployment)
 
 ---
 
