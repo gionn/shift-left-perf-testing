@@ -26,7 +26,7 @@ image: https://avatars.githubusercontent.com/u/71768
 # About me
 
 * DevOps Engineer at Hyland
-* Sometimes I get stuck in the past
+* Reenactor during the weekends
 * More about me on [gionn.net](https://gionn.net)
 
 ---
@@ -79,12 +79,12 @@ environments. We focus on:
 
 # Performance
 
-Performance is the happy problem of a software product.
+Performance is the **happy problem** of a software product.
 
 It means that the software is being used, and that it is providing value to its
 users.
 
-However, when performance issues start to make the user slow, it can quickly
+However, when performance issues start to make the user experience slow, it can quickly
 lead to frustration and dissatisfaction.
 
 ---
@@ -229,14 +229,6 @@ flowchart TD
 
 ---
 
-# Where it runs
-
-* Local: quick checks during development
-* CI: validate changes on every merge
-* Scheduled: nightly baselines
-
----
-
 # K6 strengths
 
 * Scripting in JavaScript/TypeScript with a familiar API
@@ -290,7 +282,7 @@ export default function () {
 
 ---
 
-# k6 browser example
+# k6 browser
 
 Use browser mode when you need to validate a real UI journey, not just API latency.
 
@@ -499,18 +491,19 @@ layout: section
 
 ![REST API metrics 3](/images/grafana-rest-api-3.png)
 
+---
 
+![Outbox metrics](/images/grafana-outbox.png)
 
 ---
 
-# What's next
+# What's next (lessons learned and future improvements)
 
 Ideas to extend the current setup:
 
-* Browser-level tests with k6 browser for UI journeys
+* Automated data loads in different sizes (small, medium, large)
 * Chaos engineering: inject failures during load tests
 * SLO alerting: Grafana alerts when baselines drift
-* Distributed k6 runs with k6 Operator on Kubernetes
 
 ---
 
