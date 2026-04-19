@@ -68,7 +68,7 @@ environments. We focus on:
   * [alfresco-dockerfiles-bakery](https://github.com/Alfresco/alfresco-dockerfiles-bakery):
     Docker image builder for all components
 * Classic deployments:
-  * [alfresco-ansible](https://github.com/Alfresco/alfresco-ansible-deployment)
+  * [alfresco-ansible-deployment](https://github.com/Alfresco/alfresco-ansible-deployment)
 
 ---
 
@@ -86,11 +86,11 @@ environments. We focus on:
 
 Performance is the **happy problem** of a software product.
 
-It means that the software is being used, and that it is providing value to its
-users.
+It means that the software is being used, and that it is able to provide value
+to its users.
 
-However, when performance issues hit and make the user experience slow, it can quickly
-lead to frustration and dissatisfaction.
+However, when performance issues hit and make the user experience slow, it can
+quickly lead to frustration and dissatisfaction.
 
 ---
 layout: two-cols-header
@@ -313,7 +313,7 @@ await page.locator('input[type="submit"]').click()
 await page.waitForURL(`${BASE_URL}/share/dashboard`, { timeout: 30000 })
 ```
 
-This code is actually used in alfresco helm chart integration tests.
+<!-- This code is actually used in alfresco helm chart integration tests. -->
 
 ---
 
